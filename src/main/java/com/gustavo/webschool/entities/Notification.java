@@ -8,17 +8,16 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 import java.util.Objects;
 
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @Entity
-@Table(name = "tb_course")
-public class Course implements Serializable {
+@Table(name = "tb_notification")
+public class Notification implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -26,19 +25,21 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String imgUri;
-    private String imgGrayUri;
+    private String text;
+    private Instant moment;
+    private boolean read = false;
+    private String route;
 
-    @OneToMany(mappedBy = "course")
-    private List<Offer> offers = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Course course = (Course) o;
-        return Objects.equals(id, course.id);
+        Notification that = (Notification) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
