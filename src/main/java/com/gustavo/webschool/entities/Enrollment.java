@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Setter
@@ -15,8 +17,10 @@ import java.time.Instant;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_enrollment")
-public class Enrollment {
+public class Enrollment implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     @EmbeddedId
     private EnrollmentPk id = new EnrollmentPk();
     private Instant enrollMoment;
