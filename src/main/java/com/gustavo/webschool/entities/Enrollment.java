@@ -1,10 +1,7 @@
 package com.gustavo.webschool.entities;
 
 import com.gustavo.webschool.entities.pk.EnrollmentPk;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +9,9 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -33,6 +32,9 @@ public class Enrollment implements Serializable {
 
     @ManyToMany(mappedBy = "enrollmentsDone")
     private Set<Lesson> lessonsDone = new HashSet<>();
+
+    @OneToMany(mappedBy = "enrollment")
+    private List<Deliver> delivers = new ArrayList<>();
 
     public Enrollment(User user, Offer offer, Instant enrollMoment, Instant refundMoment, boolean available, boolean onlyUpdate) {
         id.setUser(user);

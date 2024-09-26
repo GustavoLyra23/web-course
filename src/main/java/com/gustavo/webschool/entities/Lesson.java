@@ -7,9 +7,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Getter
@@ -31,6 +29,10 @@ public abstract class Lesson implements Serializable {
     @ManyToOne
     @JoinColumn(name = "section_id")
     private Section section;
+
+    @OneToMany(mappedBy = "enrollment")
+    private List<Deliver> delivers = new ArrayList<>();
+
 
     @ManyToMany
     @JoinTable(name = "tb_lessons_done",
