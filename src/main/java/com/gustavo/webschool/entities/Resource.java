@@ -1,5 +1,6 @@
 package com.gustavo.webschool.entities;
 
+import com.gustavo.webschool.enums.ResourceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,13 +11,13 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable {
+@Table(name = "tb_resource")
+public class Resource implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,27 +25,26 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
-    private String authority;
+    private String title;
+    private String description;
+    private Integer position;
+    private String imgUri;
+    private ResourceType type;
 
-    @PrePersist
-    @PreUpdate
-    private void normalizeAuthority() {
-        authority = authority.toUpperCase();
-        authority = authority.trim();
-    }
-
+    @ManyToOne
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(authority, role.authority);
+        Resource resource = (Resource) o;
+        return Objects.equals(id, resource.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(authority);
+        return Objects.hashCode(id);
     }
 }
